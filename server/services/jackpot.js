@@ -59,6 +59,7 @@ function publicRound() {
     seedHash: round.seedHash,
     pot: round.pot,
     endsAt: round.endsAt,
+    countdownMs: config.jackpotCountdownMs,
     serverTime: Date.now(),
     players: players(),
     entries: round.entries.map((e) => ({ user: e.hidden ? null : e.username, userId: e.userId, amount: e.amount })),
@@ -172,7 +173,8 @@ export function startJackpotLoop() {
       run("UPDATE pvp_rounds SET status = 'void' WHERE id = ?", r.id);
     }
   });
-  history = all(`SELECT r.id, r.pot, r.pot - r.rake AS payout, CASE WHEN u.hidden THEN NULL ELSE u.username END AS winner
+  history = all(`SELECT r.id, r.pot, r.pot - r.rake AS payout, CASE WHEN u.hidden THEN NULL ELSE u.username END AS winner,
+                        CAST((SELECT SUM(e.amount) FROM pvp_entries e WHERE e.round_id = r.id AND e.user_id = r.winner_id) AS REAL) / r.pot AS chance
                  FROM pvp_rounds r LEFT JOIN users u ON u.id = r.winner_id WHERE r.status = 'ended' ORDER BY r.id DESC LIMIT 20`);
   openRound();
 }
