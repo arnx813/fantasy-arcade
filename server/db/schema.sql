@@ -88,7 +88,11 @@ CREATE TABLE IF NOT EXISTS bets (
 );
 CREATE INDEX IF NOT EXISTS bets_user ON bets(user_id, id);
 CREATE INDEX IF NOT EXISTS bets_game_time ON bets(game, created_at);
-CREATE UNIQUE INDEX IF NOT EXISTS bets_one_active ON bets(user_id, game) WHERE status = 'active' AND game <> 'crash';
+-- One in-progress round per player per house game. Shared/PvP games are exempt: a
+-- player can hold several open duels, and jackpot/crash bets live with their round.
+-- (Migration: the first version of this index also covered duels; drop it by name.)
+DROP INDEX IF EXISTS bets_one_active;
+CREATE UNIQUE INDEX IF NOT EXISTS bets_one_active_v2 ON bets(user_id, game) WHERE status = 'active' AND game NOT IN ('crash', 'duel', 'jackpot');
 
 CREATE TABLE IF NOT EXISTS crash_chain (
   id INTEGER PRIMARY KEY,          -- chain generation

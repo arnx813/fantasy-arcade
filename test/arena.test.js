@@ -103,6 +103,16 @@ test('duels: create, join, settle, verify; cancel refunds; no self-join; one win
   reconcile();
 });
 
+test('duels: several open at once, and taking one while yours are open', async () => {
+  const a = await player('multiduel1'), b = await player('multiduel2');
+  for (let i = 0; i < 3; i++) assert.equal((await a.post('/api/arena/duels', { amount: USD, side: 'heads' })).status, 200, `open duel ${i + 1}`);
+  const theirs = (await b.post('/api/arena/duels', { amount: USD, side: 'tails' })).data.duel;
+  assert.equal((await a.post(`/api/arena/duels/${theirs.id}/join`)).status, 200, 'joining while holding open duels');
+  for (let i = 0; i < 2; i++) assert.equal((await a.post('/api/arena/duels', { amount: USD, side: 'tails' })).status, 200);
+  assert.equal((await a.post('/api/arena/duels', { amount: USD, side: 'tails' })).status, 400, 'sixth open duel refused');
+  reconcile();
+});
+
 test('profiles and leaderboard reflect player-vs-player results', async () => {
   const c = new Client();
   const lb = (await c.get('/api/arena/leaderboard?period=day')).data;
