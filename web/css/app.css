@@ -362,3 +362,5 @@ h1 { overflow-wrap: anywhere; }
   .tile-name { font-size: 17px; }
 }
 @media (max-width: 600px) { .strip-head .muted { display: none; } }
+.player-link { text-decoration: none; font-weight: 600; }
+.player-link:hover { color: var(--neon); }

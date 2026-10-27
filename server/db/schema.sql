@@ -202,3 +202,51 @@ CREATE TABLE IF NOT EXISTS audit_log (
   detail TEXT,
   created_at INTEGER NOT NULL
 );
+
+-- ---------------- Arena (player vs player) ----------------
+-- Jackpot: players pool stakes, one winner drawn weighted by stake. The round's
+-- server seed hash is published when the round opens; the seed is revealed after.
+CREATE TABLE IF NOT EXISTS pvp_rounds (
+  id INTEGER PRIMARY KEY,
+  game TEXT NOT NULL DEFAULT 'jackpot',
+  server_seed TEXT NOT NULL,
+  seed_hash TEXT NOT NULL,
+  status TEXT NOT NULL CHECK (status IN ('open', 'countdown', 'drawing', 'ended', 'void')),
+  pot INTEGER NOT NULL DEFAULT 0,
+  rake INTEGER NOT NULL DEFAULT 0,
+  winner_id INTEGER REFERENCES users(id),
+  ticket INTEGER,
+  entries_digest TEXT,
+  created_at INTEGER NOT NULL,
+  ends_at INTEGER,
+  ended_at INTEGER
+);
+CREATE TABLE IF NOT EXISTS pvp_entries (
+  id INTEGER PRIMARY KEY,
+  round_id INTEGER NOT NULL REFERENCES pvp_rounds(id),
+  user_id INTEGER NOT NULL REFERENCES users(id),
+  amount INTEGER NOT NULL,
+  created_at INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS pvp_entries_round ON pvp_entries(round_id, id);
+
+-- Coinflip duels: the creator escrows a stake and picks a side; anyone can take the
+-- other side. The seed hash is shown from creation; the result needs both player ids.
+CREATE TABLE IF NOT EXISTS duels (
+  id INTEGER PRIMARY KEY,
+  creator_id INTEGER NOT NULL REFERENCES users(id),
+  joiner_id INTEGER REFERENCES users(id),
+  amount INTEGER NOT NULL,
+  creator_side TEXT NOT NULL CHECK (creator_side IN ('heads', 'tails')),
+  server_seed TEXT NOT NULL,
+  seed_hash TEXT NOT NULL,
+  result TEXT,
+  winner_id INTEGER REFERENCES users(id),
+  payout INTEGER,
+  status TEXT NOT NULL CHECK (status IN ('open', 'done', 'cancelled')),
+  creator_bet_id INTEGER,
+  joiner_bet_id INTEGER,
+  created_at INTEGER NOT NULL,
+  settled_at INTEGER
+);
+CREATE INDEX IF NOT EXISTS duels_status ON duels(status, id);

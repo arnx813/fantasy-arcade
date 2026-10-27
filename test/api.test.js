@@ -302,3 +302,9 @@ test('crash: bet, auto cashout, chain verification', async () => {
   if (prev) assert.equal(sha256(ended.hash), prev.hash);
   reconcile();
 });
+
+test('arena routes are off in the classic variant', async () => {
+  const c = new Client();
+  assert.equal((await c.get('/api/arena/jackpot')).status, 404);
+  assert.equal((await c.get('/api/config')).data.variant, 'classic');
+});

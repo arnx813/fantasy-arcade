@@ -10,6 +10,7 @@ import { acceptUpgrade } from './lib/ws.js';
 import { userForToken } from './services/users.js';
 import { addClient } from './services/hub.js';
 import { startCrashLoop, stopCrashLoop, crashState } from './services/crash.js';
+import { startJackpotLoop, stopJackpotLoop, jackpotState } from './services/jackpot.js';
 import { postChat, recentChat, loadRecentChat } from './services/chat.js';
 import { seedMockCatalog } from './services/aggregator.js';
 import { one } from './db/index.js';
@@ -140,7 +141,7 @@ function onUpgrade(req, socket) {
   };
   refresh();
   addClient(client);
-  ws.send({ t: 'hello', crash: crashState(client.userId), chat: recentChat() });
+  ws.send({ t: 'hello', crash: crashState(client.userId), chat: recentChat(), ...(config.arena ? { jackpot: jackpotState() } : {}) });
   ws.on('message', (text) => {
     let msg;
     try { msg = JSON.parse(text); } catch { return; }
@@ -160,6 +161,7 @@ export function start({ port = config.port, dbPath = config.dbPath, crashLoop = 
   seedMockCatalog();
   loadRecentChat();
   if (crashLoop) startCrashLoop();
+  if (config.arena) startJackpotLoop();
   const server = createServer((req, res) => {
     handle(req, res).catch((e) => {
       console.error(e);
@@ -168,7 +170,7 @@ export function start({ port = config.port, dbPath = config.dbPath, crashLoop = 
   });
   server.on('upgrade', onUpgrade);
   server.listen(port, config.host);
-  server.on('close', stopCrashLoop);
+  server.on('close', () => { stopCrashLoop(); stopJackpotLoop(); });
   return server;
 }
 

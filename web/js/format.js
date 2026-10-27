@@ -23,4 +23,5 @@ export function ago(ts) {
 export const GAME_NAMES = {
   crash: 'Crash', dice: 'Dice', limbo: 'Limbo', coinflip: 'Coinflip', plinko: 'Plinko', keno: 'Keno', wheel: 'Wheel',
   roulette: 'Roulette', baccarat: 'Baccarat', videopoker: 'Video Poker', mines: 'Mines', tower: 'Tower', hilo: 'HiLo', blackjack: 'Blackjack',
+  jackpot: 'Jackpot', duel: 'Coinflip duel',
 };

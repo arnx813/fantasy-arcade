@@ -12,6 +12,7 @@ import { recentChat, deleteChat } from '../services/chat.js';
 import { VIP_LEVELS } from '../services/vip.js';
 import { adjust } from '../services/wallet.js';
 import { onlineCount } from '../services/hub.js';
+import { registerArena } from './arena.js';
 
 export const api = new Router();
 
@@ -152,6 +153,7 @@ api.get('/api/public/stats', () => ({
 api.get('/api/config', () => ({
   minBet: config.minBet, maxBet: config.maxBet, maxProfit: config.maxProfit, minWithdrawal: config.minWithdrawal,
   mockPayments: !config.isProd && config.paymentsProvider === 'mock', unit: USD,
+  variant: config.arena ? 'arena' : 'classic', jackpotRake: config.jackpotRake, duelRake: config.duelRake, pvpMinBet: config.pvpMinBet,
   rtp: Object.fromEntries(Object.entries(ENGINES).map(([k, e]) => [k, 1 - e.edge])),
 }));
 
@@ -246,3 +248,6 @@ api.delete('/api/admin/chat/:id', requireAdmin, (ctx) => {
   return { ok: true };
 });
 api.get('/api/admin/audit', requireAdmin, () => all('SELECT a.*, u.username AS actor FROM audit_log a LEFT JOIN users u ON u.id = a.actor_id ORDER BY a.id DESC LIMIT 200'));
+
+// Arena routes and public profiles.
+registerArena(api, { betLimit });

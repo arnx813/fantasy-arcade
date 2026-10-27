@@ -38,6 +38,14 @@ export const config = {
   aggregatorSecret: env.AGGREGATOR_SECRET || 'dev-aggregator-secret',
   enableMockProvider: env.MOCK_PROVIDER !== '0' && env.NODE_ENV !== 'production',
 
+  // Arena variant: player-vs-player games become the home page.
+  arena: env.ARENA === '1',
+  jackpotRake: num('JACKPOT_RAKE', 0.03),
+  duelRake: num('DUEL_RAKE', 0.025),
+  jackpotCountdownMs: num('JACKPOT_COUNTDOWN_MS', 25000),
+  jackpotSpinMs: num('JACKPOT_SPIN_MS', 6000),
+  pvpMinBet: num('PVP_MIN_BET_USD', 0.1) * USD,
+
   crash: {
     salt: env.CRASH_SALT || 'fantasy-arcade-dev-salt',
     chainLength: num('CRASH_CHAIN_LENGTH', 100000),

@@ -7,7 +7,14 @@ import { usd, toUnits, ago } from './format.js';
 
 // ---------- routes ----------
 const ROUTES = [
-  [/^\/(casino)?\/?$/, () => import('./pages/lobby.js')],
+  // Home depends on the variant: the Arena build opens on player-vs-player games.
+  [/^\/(casino)?\/?$/, () => (store.get('config')?.variant === 'arena' ? import('./pages/arena.js').catch(() => import('./pages/lobby.js')) : import('./pages/lobby.js'))],
+  [/^\/lobby$/, () => import('./pages/lobby.js')],
+  [/^\/arena\/jackpot$/, () => import('./pages/jackpot.js')],
+  [/^\/arena\/duels$/, () => import('./pages/duels.js')],
+  [/^\/arena\/leaderboard$/, () => import('./pages/leaderboard.js')],
+  [/^\/u\/(?<username>[A-Za-z0-9_]+)$/, () => import('./pages/profile.js')],
+  [/^\/bet\/(?<id>\d+)$/, () => import('./pages/bet.js')],
   [/^\/casino\/(?<game>[a-z]+)$/, () => import('./pages/game.js')],
   [/^\/slots$/, () => import('./pages/slots.js')],
   [/^\/play\/(?<gameId>[^/]+)$/, () => import('./pages/play.js')],
@@ -214,6 +221,7 @@ function buildChat() {
 }
 
 // ---------- shell ----------
+const ARENA_NAV = ['Arena', [['/', 'Arena home', ICONS.home], ['/arena/jackpot', 'Jackpot', ICONS.crown], ['/arena/duels', 'Coinflip duels', ICONS.users], ['/arena/leaderboard', 'Leaderboard', ICONS.chart]]];
 const NAV = [
   [null, [['/', 'Lobby', ICONS.home], ['/slots', 'Slots', ICONS.reels]]],
   ['Originals', [['/casino/crash', 'Crash'], ['/casino/mines', 'Mines'], ['/casino/plinko', 'Plinko'], ['/casino/dice', 'Dice'], ['/casino/limbo', 'Limbo'],
@@ -228,7 +236,10 @@ const DOT = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="curren
 
 function shell() {
   const navEl = h('nav', { class: 'nav', 'aria-label': 'Main' });
-  const renderNav = () => clear(navEl, NAV.map(([group, links]) => [
+  const navGroups = () => (store.get('config')?.variant === 'arena'
+    ? [ARENA_NAV, [null, [['/lobby', 'Casino lobby', ICONS.joystick], ['/slots', 'Slots', ICONS.reels]]], ...NAV.slice(1)]
+    : NAV);
+  const renderNav = () => clear(navEl, navGroups().map(([group, links]) => [
     group ? h('div', { class: 'nav-group' }, group) : null,
     links.map(([href, label, icon]) => h('a', { href, html: (icon || DOT) + `<span>${label}</span>` })),
   ]), store.get('me') ? h('a', { href: '#', class: 'mobile-only', html: ICONS.lock + '<span>Sign out</span>', onClick: (e) => { e.preventDefault(); logout(); } }) : null,
@@ -236,7 +247,7 @@ function shell() {
   const sidebar = h('aside', { class: 'sidebar' },
     h('a', { class: 'brand', href: '/', 'aria-label': 'Fantasy Arcade home', html:
       `<svg class="brand-mark" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#22222a"/><path d="M18 14h28l-6 10H30l-3 6h11l-5 9h-10l-6 11h-7z" fill="#ffb320"/><circle cx="46" cy="44" r="6" fill="#45e0a8"/></svg>
-       <div class="brand-word">Fantasy<span>Arcade</span></div>` }),
+       <div class="brand-word">Fantasy<span>${store.get('config')?.variant === 'arena' ? 'Arena' : 'Arcade'}</span></div>` }),
     navEl);
 
   const bal = h('div', { class: 'bal' });

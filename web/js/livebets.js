@@ -13,7 +13,7 @@ export function liveBetsTable(ctx, { limit = 12 } = {}) {
     const list = rows.filter((b) => filter === 'all' || (b.payout - b.amount >= 100e6 || b.multiplier >= 10 && b.payout > 0)).slice(0, limit);
     clear(body, list.length ? list.map((b) => h('tr',
       h('td', GAME_NAMES[b.game] || b.game),
-      h('td', { class: b.user ? '' : 'faint' }, b.user || 'Hidden'),
+      h('td', { class: b.user ? '' : 'faint' }, b.user ? h('a', { href: `/u/${b.user}`, class: 'player-link' }, b.user) : 'Hidden'),
       h('td', { class: 'num' }, usd(b.amount)),
       h('td', { class: 'num' }, b.payout > 0 ? mult(b.multiplier) : '0.00×'),
       h('td', { class: `num ${b.payout > b.amount ? 'win' : 'faint'}` }, usd(b.payout - b.amount, { sign: true })))) :
