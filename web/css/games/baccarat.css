@@ -1,0 +1,74 @@
+/* Baccarat: two card boxes over a three-spot betting rail. */
+.bac-table { width: min(100%, 700px); display: grid; gap: 18px; justify-items: center; }
+.bac-hands { display: grid; grid-template-columns: 1fr auto 1fr; gap: 14px; align-items: center; width: 100%; }
+.bac-vs { font: 14px/1 var(--display); color: var(--faint); }
+.bac-box { background: rgba(18, 13, 31, 0.55); border: 2px solid var(--line); border-radius: 16px; padding: 12px 12px 16px; display: grid; gap: 12px; min-height: 170px;
+  transition: border-color 0.2s, box-shadow 0.2s, opacity 0.2s; }
+.bac-box.player { --side: var(--info); }
+.bac-box.banker { --side: var(--loss); }
+.bac-box-head { display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: var(--side); }
+.bac-total { font: 22px/1 var(--display); color: var(--ink); min-width: 1ch; }
+.bac-hand { justify-content: center; align-items: flex-start; min-height: 104px; }
+.bac-hand .card + .card { margin-left: -22px; }
+.bac-hand .third { margin-left: 8px !important; transform: translateY(10px); box-shadow: 0 4px 0 rgba(0,0,0,0.25), 0 0 0 2px var(--marquee); }
+.bac-box.won { border-color: var(--win); box-shadow: 0 0 0 4px rgba(69, 224, 168, 0.12); }
+.bac-box.lost { opacity: 0.6; }
+
+.bac-banner { display: flex; gap: 12px; align-items: center; padding: 8px 16px; border-radius: 999px; background: var(--panel); border: 1px solid var(--line); font-weight: 700; animation: pop 0.2s ease-out; }
+.bac-banner strong { font: 16px/1.15 var(--display); }
+.bac-banner.player strong { color: var(--info); }
+.bac-banner.banker strong { color: var(--loss); }
+.bac-banner.tie strong { color: var(--win); }
+.bac-natural { font-size: 11px; color: var(--marquee); border: 1px solid currentColor; border-radius: 999px; padding: 2px 8px; }
+
+.bac-spots { display: grid; grid-template-columns: 1fr 0.8fr 1fr; gap: 10px; width: 100%; }
+.bac-spot { position: relative; border: 2px dashed var(--line); background: rgba(51, 39, 79, 0.45); border-radius: 14px; min-height: 120px; padding: 12px 10px 34px;
+  display: grid; align-content: start; justify-items: center; gap: 2px; cursor: pointer; color: var(--ink); transition: border-color 0.12s, background 0.12s, transform 0.06s; }
+.bac-spot:hover { background: rgba(51, 39, 79, 0.8); }
+.bac-spot:active { transform: translateY(1px); }
+.bac-spot.player { --side: var(--info); }
+.bac-spot.banker { --side: var(--loss); }
+.bac-spot.tie { --side: var(--win); }
+.bac-spot-name { font: 17px/1.1 var(--display); color: var(--side); }
+.bac-spot-pays { font-size: 12px; color: var(--muted); font-weight: 600; }
+.bac-spot.has { border-style: solid; border-color: var(--side); }
+.bac-spot.won { background: rgba(69, 224, 168, 0.14); border-color: var(--win); border-style: solid; }
+.bac-spot.lost { opacity: 0.55; }
+.bac-spot.push { border-color: var(--muted); }
+.bac-stack { position: relative; width: 34px; height: 34px; margin-top: 8px; }
+.bac-amt { position: absolute; bottom: 9px; left: 0; right: 0; text-align: center; font-weight: 700; font-size: 13px; }
+
+/* Chips: hexagon-notched discs in the arcade palette. */
+.bac-chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding-top: 8px; }
+.bac-chip { --c: var(--info); position: relative; aspect-ratio: 1; border-radius: 50%; border: 0; cursor: pointer; font: 12px/1 var(--display); color: #120d1f;
+  background: radial-gradient(circle, var(--c) 0 50%, #fff 51% 55%, transparent 56%),
+    conic-gradient(from 22.5deg, #fff 0 12.5%, transparent 12.5% 25%, #fff 25% 37.5%, transparent 37.5% 50%, #fff 50% 62.5%, transparent 62.5% 75%, #fff 75% 87.5%, transparent 87.5%) var(--c);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35); transition: transform 0.08s; display: grid; place-items: center; }
+.bac-chip.c0 { --c: #7cb8ff; }
+.bac-chip.c1 { --c: #45e0a8; }
+.bac-chip.c2 { --c: #ff7a8c; }
+.bac-chip.c3 { --c: #ffb320; }
+.bac-chips .bac-chip { max-width: 56px; justify-self: center; width: 100%; }
+.bac-chips .bac-chip.on { transform: translateY(-4px); box-shadow: 0 0 0 3px var(--cabinet), 0 0 0 5px var(--ink), 0 6px 0 rgba(0, 0, 0, 0.35); }
+.bac-chip.mini { position: absolute; left: 0; width: 34px; height: 34px; cursor: default; box-shadow: 0 2px 0 rgba(0, 0, 0, 0.45); animation: bac-drop 0.16s ease-out; }
+@keyframes bac-drop { from { transform: translateY(-10px); opacity: 0; } }
+
+.bac-road-wrap { display: flex; gap: 10px; align-items: center; width: 100%; min-height: 26px; }
+.bac-road { display: flex; gap: 4px; flex-wrap: wrap; }
+.bac-dot { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font: 700 11px/1 var(--ui); border: 2px solid; }
+.bac-dot.player { color: var(--info); }
+.bac-dot.banker { color: var(--loss); }
+.bac-dot.tie { color: var(--win); }
+
+@media (max-width: 900px) {
+  .bac-table .fa-card { --cw: 50px; }
+  .bac-hands { gap: 6px; }
+  .bac-box { padding: 8px 6px 12px; min-height: 120px; }
+  .bac-hand { min-height: 72px; }
+  .bac-hand .card + .card { margin-left: -16px; }
+  .bac-spot { min-height: 104px; padding: 10px 4px 32px; }
+  .bac-spot-name { font-size: 14px; }
+  .bac-spot-pays { font-size: 11px; }
+  .bac-banner { border-radius: 14px; flex-wrap: wrap; justify-content: center; gap: 6px 10px; }
+  .bac-banner strong { font-size: 14px; }
+}

@@ -1,0 +1,61 @@
+/* HiLo: big card in the middle, the two calls either side, a rank ladder and history. */
+.hl-wrap { width: min(100%, 720px); display: grid; gap: 18px; min-width: 0; }
+.hl-top { display: grid; grid-template-columns: 1fr auto 1fr; gap: 18px; align-items: center; }
+.hl-centre { position: relative; display: grid; place-items: center; padding: 6px 30px 6px 0; }
+.hl-current .fa-card { --cw: 128px; }
+.hl-current { position: relative; z-index: 1; border-radius: 16px; transition: transform 0.16s, opacity 0.16s; }
+.hl-current.leaving { transform: translateX(-40px) rotate(-6deg); opacity: 0; }
+.hl-current.ok .fa-card { box-shadow: 0 4px 0 rgba(0,0,0,0.25), 0 0 0 4px var(--win), 0 0 30px rgba(69, 224, 168, 0.4); }
+.hl-current.bad .fa-card { box-shadow: 0 4px 0 rgba(0,0,0,0.25), 0 0 0 4px var(--loss), 0 0 30px rgba(255, 93, 115, 0.4); }
+.hl-deck { position: absolute; right: 0; top: 50%; transform: translateY(-50%); }
+.hl-deck .fa-card { --cw: 96px; position: absolute; right: 0; top: 50%; transform: translateY(-50%) rotate(6deg); opacity: 0.55; }
+.hl-deck .fa-card + .fa-card { right: 6px; transform: translateY(-50%) rotate(3deg); opacity: 0.8; }
+
+.hl-side { display: grid; }
+.hl-choice { border: 2px solid var(--line); background: var(--raised); color: var(--ink); border-radius: 14px; padding: 16px 12px; cursor: pointer;
+  display: grid; justify-items: center; gap: 4px; transition: transform 0.06s, border-color 0.12s, filter 0.12s; min-height: 120px; align-content: center; }
+.hl-choice:not(:disabled):hover { filter: brightness(1.1); }
+.hl-choice:not(:disabled):active { transform: translateY(1px); }
+.hl-choice:disabled { opacity: 0.5; cursor: not-allowed; }
+.hl-choice.c0:not(:disabled) { border-color: var(--win); }
+.hl-choice.c1:not(:disabled) { border-color: var(--marquee); }
+.hl-ico { font: 26px/1 var(--display); }
+.hl-choice.c0 .hl-ico { color: var(--win); }
+.hl-choice.c1 .hl-ico { color: var(--marquee); }
+.hl-choice strong { font-size: 15px; }
+.hl-odds { font-size: 12px; color: var(--muted); font-weight: 600; text-align: center; }
+
+.hl-scale { display: grid; grid-template-columns: repeat(13, 1fr); gap: 3px; }
+.hl-scale span { text-align: center; font: 700 12px/1 var(--ui); color: var(--faint); padding: 6px 0; border-radius: 4px; background: rgba(18, 13, 31, 0.5); }
+.hl-scale span.on { background: var(--marquee); color: var(--marquee-ink); }
+
+.hl-bar { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: center; }
+.hl-run { display: grid; justify-items: center; }
+.hl-mult { font: 32px/1 var(--display); }
+.hl-mult.win { color: var(--win); }
+.hl-mult.loss { color: var(--loss); }
+
+.hl-history-wrap { overflow-x: auto; overflow-y: hidden; padding: 4px 2px 6px; background: rgba(18, 13, 31, 0.45); border-radius: 12px; min-height: 96px; scrollbar-width: thin; }
+.hl-history { display: flex; gap: 8px; padding: 6px 8px; width: max-content; }
+.hl-hcard { position: relative; display: grid; justify-items: center; gap: 4px; }
+.hl-hcard .fa-card { --cw: 46px; }
+.hl-hcard + .hl-hcard::before { content: ''; position: absolute; left: -7px; top: 30px; width: 6px; height: 2px; background: var(--line); }
+.hl-tag { font: 700 11px/1 var(--ui); padding: 3px 6px; border-radius: 999px; background: var(--raised); color: var(--muted); min-width: 22px; text-align: center; }
+.hl-hcard.won .hl-tag { background: rgba(69, 224, 168, 0.18); color: var(--win); }
+.hl-hcard.lost .hl-tag { background: rgba(255, 93, 115, 0.18); color: var(--loss); }
+.hl-hcard.lost .fa-card { box-shadow: 0 0 0 2px var(--loss); }
+.hl-hcard.skip .fa-card { opacity: 0.6; }
+
+@media (max-width: 900px) {
+  .hl-top { gap: 8px; grid-template-columns: 1fr auto 1fr; }
+  .hl-current .fa-card { --cw: 92px; }
+  .hl-deck .fa-card { --cw: 70px; }
+  .hl-centre { padding-right: 18px; }
+  .hl-choice { padding: 10px 4px; min-height: 104px; }
+  .hl-choice strong { font-size: 13px; text-align: center; }
+  .hl-odds { font-size: 11px; }
+  .hl-scale span { font-size: 10px; padding: 4px 0; }
+  .hl-bar { grid-template-columns: 1fr 1fr; }
+  .hl-run { grid-column: 1 / -1; order: -1; }
+  .hl-mult { font-size: 26px; }
+}

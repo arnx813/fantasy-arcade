@@ -1,0 +1,47 @@
+/* Wheel: canvas ring, hub readout, pointer at the top, legend below. */
+.wheel { width: 100%; max-width: 560px; display: grid; gap: 22px; justify-items: center; }
+.wheel-disc { position: relative; width: min(100%, 440px); aspect-ratio: 1; }
+.wheel-canvas { display: block; width: 100%; height: 100%; }
+.wheel-pointer {
+  position: absolute; top: -8px; left: 50%; width: 28px; height: 34px; transform: translateX(-50%);
+  background: var(--ink); clip-path: polygon(0 0, 100% 0, 100% 45%, 50% 100%, 0 45%);
+  filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.4));
+}
+.wheel-pointer::after {
+  content: ''; position: absolute; inset: 5px 7px 12px; background: var(--marquee);
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 50% 100%, 0 45%);
+}
+.wheel-hub {
+  position: absolute; inset: 31%; border-radius: 50%; display: grid; place-items: center; text-align: center;
+  background: radial-gradient(circle at 50% 35%, #3a2d5c, #1e1530 72%); border: 3px solid var(--line);
+  transition: border-color 0.2s;
+}
+.wheel-hub-val { font: clamp(20px, 6vw, 36px)/1 var(--display); color: var(--muted); }
+.wheel-hub.w { border-color: var(--win); }
+.wheel-hub.w .wheel-hub-val { color: var(--win); }
+.wheel-hub.l .wheel-hub-val { color: var(--loss); }
+.wheel-hub.even .wheel-hub-val { color: var(--ink); }
+.wheel-hub:not(.w):not(.l):not(.even) .wheel-hub-val:empty::before {
+  content: ''; display: block; width: 18px; height: 18px; border-radius: 50%; background: var(--marquee);
+  box-shadow: 0 0 0 6px rgba(255, 179, 32, 0.18);
+}
+
+.wheel-legend { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.wheel-chip {
+  display: flex; align-items: center; gap: 8px; padding: 7px 12px 7px 8px; border-radius: 999px;
+  background: var(--panel); border: 1px solid var(--line); font-size: 14px; transition: border-color 0.15s, transform 0.15s;
+}
+.wheel-chip .sw { width: 14px; height: 14px; border-radius: 4px; background: var(--c); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12); }
+.wheel-chip b { font-weight: 700; }
+.wheel-chip .p { color: var(--faint); font-size: 13px; }
+.wheel-chip.on { border-color: var(--c); transform: translateY(-2px); }
+@media (max-width: 480px) {
+  .wheel { gap: 16px; }
+  .wheel-chip { padding: 5px 10px 5px 6px; font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wheel-chip, .wheel-hub { transition: none; }
+}
+
+/* Long result chips must not widen the page on phones. */
+.game:has(.wheel) .game-foot .history-strip { width: 0; min-width: 0; }

@@ -1,0 +1,43 @@
+/* Video Poker: paytable marquee over a five-card tray. */
+.vp-wrap { width: min(100%, 640px); min-width: 0; display: grid; gap: 18px; justify-items: center; }
+.vp-pay-wrap { width: 100%; background: rgba(18, 13, 31, 0.6); border: 2px solid var(--line); border-radius: 14px; padding: 6px 4px; }
+.vp-pay { width: 100%; border-collapse: collapse; font-size: 14px; }
+.vp-pay th, .vp-pay td { padding: 4px 12px; text-align: left; }
+.vp-pay thead th { font-size: 12px; color: var(--faint); font-weight: 600; }
+.vp-pay tbody th { font-weight: 700; color: var(--muted); }
+.vp-pay .vp-x { text-align: right; color: var(--faint); font-weight: 600; width: 70px; }
+.vp-pay .vp-win { text-align: right; font-weight: 700; width: 120px; color: var(--marquee); font-variant-numeric: tabular-nums; }
+.vp-pay thead .vp-col { color: var(--marquee); }
+.vp-pay tbody tr { transition: background 0.15s; }
+.vp-pay tbody tr:first-child th, .vp-pay tbody tr:first-child .vp-win { color: var(--ink); }
+.vp-pay tbody tr:first-child .vp-win { font-family: var(--display); font-weight: 400; }
+.vp-pay tr.preview { background: rgba(124, 184, 255, 0.12); }
+.vp-pay tr.preview th { color: var(--info); }
+.vp-pay tr.hit { background: rgba(69, 224, 168, 0.18); animation: vp-flash 0.6s ease-out 2; }
+.vp-pay tr.hit th, .vp-pay tr.hit .vp-win { color: var(--win); }
+@keyframes vp-flash { 50% { background: rgba(69, 224, 168, 0.4); } }
+
+.vp-msg { min-height: 28px; font-weight: 600; color: var(--muted); text-align: center; }
+.vp-msg strong { font: 18px/1 var(--display); }
+.vp-msg.win { color: var(--win); }
+.vp-msg.loss { color: var(--muted); }
+
+.vp-hand { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; width: 100%; container-type: inline-size; }
+.vp-slot { border: 0; background: transparent; padding: 0 0 26px; position: relative; cursor: pointer; display: grid; justify-items: center; color: inherit; }
+.vp-slot:disabled { cursor: default; }
+.vp-card .fa-card { --cw: min(104px, calc((100cqi - 48px) / 5)); transition: transform 0.12s; }
+.vp-slot:not(:disabled):hover .fa-card { transform: translateY(-4px); }
+.vp-slot.on .fa-card { transform: translateY(-8px); }
+.vp-hold { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); font: 12px/1 var(--display); color: var(--marquee-ink); background: var(--marquee);
+  padding: 4px 10px; border-radius: 999px; opacity: 0; transition: opacity 0.12s; }
+.vp-slot.on .vp-hold { opacity: 1; }
+
+@media (max-width: 900px) {
+  .vp-hand { gap: 6px; }
+  .vp-card .fa-card { --cw: min(104px, calc((100cqi - 24px) / 5)); }
+  .vp-pay { font-size: 13px; }
+  .vp-pay th, .vp-pay td { padding: 3px 8px; }
+  .vp-pay .vp-x { width: 46px; }
+  .vp-pay .vp-win { width: 84px; }
+  .vp-hold { font-size: 10px; padding: 3px 7px; }
+}

@@ -1,0 +1,58 @@
+/* Blackjack: a felt-less arcade table — plum baize with a marquee rail. */
+.bj-table {
+  width: min(100%, 720px); min-height: 440px; display: grid; grid-template-rows: 1fr auto 1fr; gap: 18px; align-items: center;
+  padding: 26px 20px; border-radius: 26px 26px 140px 140px / 26px 26px 90px 90px;
+  background: radial-gradient(90% 70% at 50% 100%, #3b2a63 0%, #2a1e45 60%, #221839 100%);
+  border: 2px solid var(--line); box-shadow: inset 0 0 0 6px rgba(255, 179, 32, 0.08), 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+.bj-zone { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; align-items: flex-start; }
+.bj-dealer { flex-direction: column; align-items: center; gap: 10px; }
+.bj-dealer .bj-label { order: -1; }
+.bj-rail { display: flex; align-items: center; gap: 12px; color: var(--faint); font-size: 12px; font-weight: 600; justify-content: center; }
+.bj-rail i { flex: 0 1 140px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, transparent, var(--marquee), transparent); opacity: 0.5; }
+
+.bj-hand { min-height: 104px; align-items: center; justify-content: center; }
+.bj-hand .card + .card { margin-left: -34px; }
+.bj-slot { width: 74px; height: 104px; border-radius: 8px; border: 2px dashed var(--line); }
+
+.bj-seat { position: relative; display: grid; justify-items: center; gap: 10px; padding: 12px 14px 14px; border-radius: 16px; border: 2px solid transparent; transition: border-color 0.15s, background 0.15s; }
+.bj-seat.active { border-color: var(--marquee); background: rgba(255, 179, 32, 0.07); }
+.bj-seat.active .bj-label > span:first-child::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--marquee); margin-right: 6px; vertical-align: 1px; }
+
+.bj-label { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; font-weight: 600; }
+.bj-total { font: 15px/1 var(--display); color: var(--ink); background: var(--cabinet); border: 1px solid var(--line); padding: 5px 9px; border-radius: 999px; min-width: 34px; text-align: center; }
+.bj-tag { font-size: 11px; color: var(--marquee); border: 1px solid currentColor; border-radius: 999px; padding: 1px 7px; }
+
+.bj-banner { position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%) rotate(-4deg); display: grid; justify-items: center; gap: 2px;
+  padding: 8px 16px; border-radius: 10px; background: var(--panel); border: 2px solid var(--muted); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  white-space: nowrap; animation: bj-stamp 0.22s ease-out; pointer-events: none; }
+.bj-banner strong { font: 18px/1 var(--display); }
+.bj-banner span { font-size: 12px; font-weight: 700; color: var(--muted); }
+.bj-banner.win, .bj-banner.bj { border-color: var(--win); }
+.bj-banner.win strong, .bj-banner.bj strong { color: var(--win); }
+.bj-banner.bj { background: linear-gradient(180deg, #2c4a3e, var(--panel)); }
+.bj-banner.lose, .bj-banner.bust { border-color: var(--loss); }
+.bj-banner.lose strong, .bj-banner.bust strong { color: var(--loss); }
+.bj-banner.push strong { color: var(--ink); }
+.bj-seat.out-lose .card, .bj-seat.out-bust .card { filter: saturate(0.6) brightness(0.8); }
+@keyframes bj-stamp { from { transform: translate(-50%, -50%) rotate(-4deg) scale(1.3); opacity: 0; } }
+
+.bj-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.bj-act { flex-direction: column; gap: 0; padding: 10px 8px; min-height: 52px; line-height: 1.2; }
+.bj-act .bj-extra { font-size: 11px; font-weight: 600; color: var(--muted); }
+.bj-act .bj-extra:empty { display: none; }
+.bj-hit:not(:disabled) { box-shadow: inset 0 -3px 0 var(--win); }
+.bj-stand:not(:disabled) { box-shadow: inset 0 -3px 0 var(--loss); }
+.bj-double:not(:disabled), .bj-split:not(:disabled) { box-shadow: inset 0 -3px 0 var(--marquee); }
+.bj-rules { margin-top: -4px; }
+
+@media (max-width: 900px) {
+  .bj-table { padding: 18px 10px; min-height: 380px; border-radius: 20px 20px 90px 90px / 20px 20px 60px 60px; }
+  .bj-table .fa-card { --cw: 62px; }
+  .bj-hand { min-height: 88px; }
+  .bj-hand .card + .card { margin-left: -30px; }
+  .bj-slot { width: 62px; height: 88px; }
+  .bj-zone { gap: 8px; }
+  .bj-seat { padding: 8px; }
+  .bj-rail span:last-child, .bj-rail i { display: none; }
+}

@@ -1,0 +1,11 @@
+/* Plinko: canvas board sized by JS to the stage width. */
+.plinko { width: 100%; max-width: 760px; align-self: stretch; display: grid; align-content: center; }
+.plinko-board { width: 100%; }
+.plinko-canvas { display: block; width: 100%; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (max-width: 480px) {
+  .stage:has(.plinko) { padding: 14px 8px; }
+}
+
+/* Long result chips must not widen the page on phones. */
+.game:has(.plinko) .game-foot .history-strip { width: 0; min-width: 0; }

@@ -1,0 +1,48 @@
+/* ---------- keno ---------- */
+.keno-wrap { width: min(100%, 680px); display: grid; gap: 16px; }
+.keno-board { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; }
+.keno-tile {
+  position: relative; aspect-ratio: 1; border: 0; border-radius: 10px; padding: 0;
+  background: var(--raised); color: var(--ink); box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.25);
+  font: 17px/1 var(--display); cursor: pointer; display: grid; place-items: center;
+  transition: transform 0.08s, background 0.12s, opacity 0.2s;
+}
+.keno-tile:hover { background: #43356a; transform: translateY(-2px); }
+.keno-board.busy .keno-tile { cursor: default; pointer-events: none; }
+.keno-tile.picked { background: var(--marquee); color: var(--marquee-ink); }
+.keno-tile.picked:hover { background: #ffc24d; }
+.keno-tile.drawn { background: #120d1f; color: var(--loss); box-shadow: inset 0 0 0 2px rgba(255, 93, 115, 0.35); animation: keno-in 0.16s ease-out; }
+.keno-tile.hit {
+  background: #0f3a2e; color: var(--win); animation: keno-in 0.2s ease-out;
+  box-shadow: 0 0 0 2px var(--win), 0 0 18px rgba(69, 224, 168, 0.55);
+}
+.keno-tile.hit svg { width: 62%; height: 62%; }
+.keno-tile.hit .n { position: absolute; top: 4px; left: 6px; font-size: 10px; }
+.keno-tile.miss { opacity: 0.38; }
+@keyframes keno-in { from { transform: scale(0.82); } }
+
+.keno-pays { display: grid; grid-template-columns: repeat(var(--cols, 1), 1fr); gap: 6px; min-height: 46px; }
+.keno-pays-empty { align-self: center; width: 100%; text-align: center; }
+.keno-pay {
+  min-width: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+  padding: 6px 4px; text-align: center; transition: border-color 0.15s, background 0.15s;
+}
+.keno-pay .m { font-weight: 700; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.keno-pay .k { font-size: 11px; color: var(--faint); white-space: nowrap; }
+.keno-pay.zero .m { color: var(--faint); }
+.keno-pay.on { border-color: var(--marquee); background: rgba(255, 179, 32, 0.14); }
+.keno-pay.on .m { color: var(--marquee); }
+.keno-status { min-height: 22px; text-align: center; font-weight: 600; color: var(--muted); }
+.keno-status.win { color: var(--win); }
+.keno-count { text-align: center; }
+
+@media (max-width: 600px) {
+  .keno-board { gap: 5px; }
+  .keno-tile { font-size: 13px; border-radius: 8px; }
+  .keno-tile.hit .n { top: 2px; left: 3px; font-size: 8px; }
+  .keno-pays { gap: 4px; }
+  .keno-pay { padding: 5px 2px; }
+  .keno-pay .m { font-size: 11px; }
+  .keno-pay .k { font-size: 10px; }
+  .keno-pay .m { font-size: 12px; }
+}

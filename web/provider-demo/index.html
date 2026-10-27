@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Demo slot</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Chivo:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="/provider-demo/demo.css">
+</head>
+<body>
+  <div class="machine" id="machine">
+    <header class="m-head">
+      <h1 class="m-title" id="title">Demo slot</h1>
+      <span class="badge" title="A stand-in for a real game studio, for development only">Demo provider</span>
+    </header>
+
+    <div class="window-wrap">
+      <div class="window" id="window" aria-label="Reels">
+        <div class="reel" data-col="0"><div class="strip"></div></div>
+        <div class="reel" data-col="1"><div class="strip"></div></div>
+        <div class="reel" data-col="2"><div class="strip"></div></div>
+        <svg class="lines" id="lines" viewBox="0 0 300 300" preserveAspectRatio="none" aria-hidden="true"></svg>
+      </div>
+      <div class="win-banner hidden" id="banner" role="status" aria-live="polite"></div>
+    </div>
+
+    <div class="msg" id="msg" role="status" aria-live="polite">Five lines: three rows and both diagonals.</div>
+
+    <footer class="deck">
+      <div class="meter">
+        <span class="k">Balance</span>
+        <span class="v" id="balance">—</span>
+      </div>
+      <div class="meter bet">
+        <span class="k">Bet</span>
+        <div class="bet-ctl">
+          <button type="button" class="step" id="betDown" aria-label="Lower bet">−</button>
+          <select id="bet" aria-label="Bet amount"></select>
+          <button type="button" class="step" id="betUp" aria-label="Raise bet">+</button>
+        </div>
+      </div>
+      <div class="meter">
+        <span class="k">Win</span>
+        <span class="v" id="win">$0.00</span>
+      </div>
+      <button type="button" class="spin" id="spin">Spin</button>
+      <button type="button" class="ghost" id="payBtn" aria-expanded="false" aria-controls="paytable">Paytable</button>
+    </footer>
+
+    <section class="paytable hidden" id="paytable" aria-label="Paytable">
+      <div class="pt-head">
+        <h2>Paytable</h2>
+        <button type="button" class="ghost" id="payClose">Close</button>
+      </div>
+      <p class="pt-note">Three of a kind on any of the five lines pays the multiplier times the line bet. Line bet is your bet split across five lines.</p>
+      <div class="pt-grid" id="ptGrid"></div>
+      <svg class="pt-lines" viewBox="0 0 330 70" aria-hidden="true" id="ptLines"></svg>
+    </section>
+  </div>
+  <script type="module" src="/provider-demo/demo.js"></script>
+</body>
+</html>

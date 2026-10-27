@@ -1,0 +1,36 @@
+/* ---------- tower ---------- */
+.tower-wrap { width: min(100%, 520px); }
+.tower {
+  display: grid; gap: 6px; padding: 12px; border-radius: var(--r-md);
+  background: linear-gradient(180deg, rgba(35, 181, 211, 0.08), rgba(35, 181, 211, 0.02)), var(--panel);
+  border: 1px solid var(--line); box-shadow: inset 0 0 0 4px rgba(0, 0, 0, 0.12);
+}
+.tower-floor { display: grid; grid-template-columns: 1fr 70px; gap: 10px; align-items: center; transition: opacity 0.2s; }
+.tower-doors { display: grid; grid-template-columns: repeat(var(--cols), 1fr); gap: 6px; }
+.tower-mult { font: 13px/1 var(--display); color: var(--faint); text-align: right; white-space: nowrap; }
+.tower-floor.current .tower-mult { color: var(--marquee); }
+.tower-floor.cleared .tower-mult { color: var(--win); }
+.tower-floor.above { opacity: 0.55; }
+.tower-floor.current { opacity: 1; }
+
+.tower-door {
+  height: 40px; border: 0; border-radius: 8px 8px 4px 4px; padding: 4px; cursor: pointer;
+  background: var(--raised); box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.28);
+  display: grid; place-items: center; transition: transform 0.08s, background 0.12s;
+}
+.tower-door svg { height: 100%; width: auto; }
+.tower-door:disabled { cursor: default; }
+.tower-floor.current .tower-door { background: #4a3a78; box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.28), 0 0 0 1px var(--marquee); }
+.tower-floor.current .tower-door:not(:disabled):hover { background: #5b4892; transform: translateY(-2px); }
+.tower-door.safe { background: #0f3a2e; box-shadow: inset 0 0 0 2px rgba(69, 224, 168, 0.5); }
+.tower-door.picked.safe { background: #135a45; box-shadow: 0 0 0 2px var(--win), 0 0 14px rgba(69, 224, 168, 0.45); animation: tower-in 0.18s ease-out; }
+.tower-door.bust { background: rgba(255, 93, 115, 0.25); box-shadow: 0 0 0 2px var(--loss); animation: tower-in 0.18s ease-out; }
+.tower-door.ghost { opacity: 0.45; background: #120d1f; box-shadow: none; }
+@keyframes tower-in { from { transform: scale(0.85); } }
+
+@media (max-width: 600px) {
+  .tower { padding: 8px; gap: 5px; }
+  .tower-floor { grid-template-columns: 1fr 56px; gap: 6px; }
+  .tower-door { height: 32px; }
+  .tower-mult { font-size: 11px; }
+}

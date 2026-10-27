@@ -1,0 +1,37 @@
+/* Limbo: a single big readout over a log-scale meter. */
+.limbo { width: 100%; max-width: 620px; display: grid; gap: 26px; }
+.limbo-dial {
+  text-align: center; padding: 34px 16px 28px; border-radius: var(--r-lg); position: relative;
+  background: radial-gradient(70% 90% at 50% 100%, rgba(255, 179, 32, 0.10), transparent 70%), var(--panel);
+  border: 1px solid var(--line);
+  box-shadow: inset 0 -6px 0 rgba(0, 0, 0, 0.22);
+}
+.limbo-readout { color: var(--ink); transition: color 0.15s, text-shadow 0.2s; overflow-wrap: anywhere; }
+.limbo-readout.w { color: var(--win); text-shadow: 0 0 28px rgba(69, 224, 168, 0.35); }
+.limbo-readout.l { color: var(--loss); }
+.limbo-caption { margin-top: 10px; color: var(--muted); font-weight: 600; min-height: 1.5em; }
+
+.limbo-meter { padding: 30px 4px 0; }
+.limbo-track { position: relative; height: 12px; border-radius: 999px; background: var(--raised); box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.25); }
+.limbo-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; border-radius: inherit; background: var(--ink); }
+.limbo-meter.w .limbo-fill { background: var(--win); }
+.limbo-meter.l .limbo-fill { background: var(--loss); }
+.limbo-pin { position: absolute; top: -8px; bottom: -8px; width: 3px; margin-left: -1.5px; background: var(--marquee); border-radius: 2px; transition: left 0.2s ease-out; }
+.limbo-pin span {
+  position: absolute; bottom: calc(100% + 4px); left: 50%; transform: translateX(-50%); white-space: nowrap;
+  font: 12px/1 var(--display); color: var(--marquee-ink); background: var(--marquee); padding: 5px 7px; border-radius: 6px;
+}
+.limbo-scale { display: flex; justify-content: space-between; margin-top: 10px; color: var(--faint); font-size: 12px; }
+
+.limbo-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 480px) {
+  .limbo { gap: 18px; }
+  .limbo-dial { padding: 24px 10px 20px; }
+  .limbo-inputs { gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .limbo-pin, .limbo-readout { transition: none; }
+}
+
+/* Long result chips must not widen the page on phones. */
+.game:has(.limbo) .game-foot .history-strip { width: 0; min-width: 0; }

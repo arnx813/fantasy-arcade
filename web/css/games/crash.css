@@ -1,0 +1,63 @@
+/* Crash: graph with a HUD overlay, players list alongside (below on narrow screens). */
+.stage:has(.crash) { place-items: stretch; padding: 18px; container-type: inline-size; }
+.crash { width: 100%; min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr) 230px; gap: 14px; min-height: 440px; }
+.crash-graph {
+  position: relative; min-height: 360px; border-radius: var(--r-md); overflow: hidden;
+  background: linear-gradient(180deg, rgba(255, 179, 32, 0.04), transparent 40%), #191128;
+  border: 1px solid var(--line);
+}
+.crash-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.crash-hud {
+  position: absolute; left: 50%; top: 38%; transform: translate(-50%, -50%); text-align: center;
+  pointer-events: none; display: grid; gap: 6px; justify-items: center; width: 90%;
+}
+.crash-readout { font: clamp(44px, 8vw, 88px)/1 var(--display); color: var(--ink); text-shadow: 0 4px 0 rgba(0, 0, 0, 0.3); }
+.crash-sub { font-weight: 700; color: var(--muted); min-height: 1.5em; }
+.crash-bar { width: min(240px, 70%); height: 6px; border-radius: 999px; background: var(--raised); overflow: hidden; }
+.crash-bar > div { height: 100%; background: var(--marquee); border-radius: inherit; }
+.crash-graph[data-phase='betting'] .crash-readout { color: var(--marquee); }
+.crash-graph[data-phase='ended'] .crash-readout { color: var(--loss); }
+.crash-graph[data-phase='ended'] .crash-sub { color: var(--loss); }
+.crash-graph.shake { animation: crash-jolt 0.35s ease-out; }
+@keyframes crash-jolt {
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-2px); }
+}
+
+.crash-players {
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-md);
+  display: flex; flex-direction: column; min-height: 0; overflow: hidden;
+}
+.crash-players-head { display: flex; justify-content: space-between; padding: 10px 12px; font-weight: 700; font-size: 13px; border-bottom: 1px solid var(--line); }
+.crash-players-list { overflow-y: auto; flex: 1; max-height: 420px; padding: 4px 0; }
+.crash-player {
+  display: grid; grid-template-columns: 1fr auto; grid-template-areas: 'who res' 'amt res';
+  padding: 6px 12px; font-size: 13px; column-gap: 8px; border-left: 3px solid transparent;
+}
+.crash-player .who { grid-area: who; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.crash-player .amt { grid-area: amt; color: var(--faint); font-size: 12px; }
+.crash-player .res { grid-area: res; align-self: center; text-align: right; color: var(--faint); font-weight: 600; }
+.crash-player.w .res { color: var(--win); }
+.crash-player.l .res { color: var(--loss); opacity: 0.8; }
+.crash-player.me { background: rgba(255, 179, 32, 0.07); border-left-color: var(--marquee); }
+.crash-empty { padding: 14px 12px; }
+
+.btn-queued { background: var(--raised); color: var(--marquee); box-shadow: inset 0 0 0 2px var(--marquee); }
+.crash-note { min-height: 1.4em; }
+.crash-hist-label { flex-shrink: 0; }
+/* width: 0 keeps the chip row from setting the grid's min-content width on phones. */
+.crash-history { justify-content: flex-start; min-width: 0; width: 0; }
+
+@container (max-width: 720px) {
+  .crash { grid-template-columns: minmax(0, 1fr); }
+  .crash-players-list { max-height: 220px; }
+}
+@media (max-width: 480px) {
+  .stage:has(.crash) { padding: 10px; }
+  .crash { min-height: 0; gap: 10px; }
+  .crash-graph { min-height: 280px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .crash-graph.shake { animation: none; }
+}
