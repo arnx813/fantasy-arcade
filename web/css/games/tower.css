@@ -25,7 +25,7 @@
 .tower-door.safe { background: #0f3a2e; box-shadow: inset 0 0 0 2px rgba(69, 224, 168, 0.5); }
 .tower-door.picked.safe { background: #135a45; box-shadow: 0 0 0 2px var(--win), 0 0 14px rgba(69, 224, 168, 0.45); animation: tower-in 0.18s ease-out; }
 .tower-door.bust { background: rgba(255, 93, 115, 0.25); box-shadow: 0 0 0 2px var(--loss); animation: tower-in 0.18s ease-out; }
-.tower-door.ghost { opacity: 0.45; background: #120d1f; box-shadow: none; }
+.tower-door.ghost { opacity: 0.45; background: #0d0d11; box-shadow: none; }
 @keyframes tower-in { from { transform: scale(0.85); } }
 
 @media (max-width: 600px) {

@@ -235,7 +235,7 @@ function shell() {
   store.get('me')?.role === 'admin' ? [h('div', { class: 'nav-group' }, 'Operator'), h('a', { href: '/admin', html: ICONS.chart + '<span>Admin</span>' })] : null);
   const sidebar = h('aside', { class: 'sidebar' },
     h('a', { class: 'brand', href: '/', 'aria-label': 'Fantasy Arcade home', html:
-      `<svg class="brand-mark" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#33274f"/><path d="M18 14h28l-6 10H30l-3 6h11l-5 9h-10l-6 11h-7z" fill="#ffb320"/><circle cx="46" cy="44" r="6" fill="#45e0a8"/></svg>
+      `<svg class="brand-mark" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#22222a"/><path d="M18 14h28l-6 10H30l-3 6h11l-5 9h-10l-6 11h-7z" fill="#ffb320"/><circle cx="46" cy="44" r="6" fill="#45e0a8"/></svg>
        <div class="brand-word">Fantasy<span>Arcade</span></div>` }),
     navEl);
 
@@ -256,7 +256,7 @@ function shell() {
         h('button', { class: 'btn btn-ghost desktop-only', onClick: () => openAuth('login') }, 'Sign in'),
         h('button', { class: 'btn btn-primary', onClick: () => openAuth('register') }, 'Create account'),
       ],
-      h('button', { class: 'icon-btn', 'aria-label': 'Toggle chat', html: ICONS.chat, onClick: () => store.set('chatOpen', !store.get('chatOpen')) }));
+    );
   };
   store.on('balance', (b) => {
     const prev = Number(bal.dataset.v || 0);
@@ -269,7 +269,10 @@ function shell() {
   bal.dataset.v = store.get('balance');
   renderTop();
   renderNav();
-  return h('div', { class: 'shell' }, sidebar, top, main, buildChat());
+  // Chat opens from a floating button that steps aside while the drawer is open.
+  const fab = h('button', { class: `chat-fab ${store.get('chatOpen') ? 'hidden-by-chat' : ''}`, 'aria-label': 'Open chat', html: ICONS.chat, onClick: () => store.set('chatOpen', true) });
+  store.on('chatOpen', (o) => fab.classList.toggle('hidden-by-chat', o));
+  return h('div', { class: 'shell' }, sidebar, top, main, buildChat(), fab);
 }
 
 // Context handed to every page.

@@ -13,7 +13,7 @@
 }
 .wheel-hub {
   position: absolute; inset: 31%; border-radius: 50%; display: grid; place-items: center; text-align: center;
-  background: radial-gradient(circle at 50% 35%, #3a2d5c, #1e1530 72%); border: 3px solid var(--line);
+  background: radial-gradient(circle at 50% 35%, #3a2d5c, #121217 72%); border: 3px solid var(--line);
   transition: border-color 0.2s;
 }
 .wheel-hub-val { font: clamp(20px, 6vw, 36px)/1 var(--display); color: var(--muted); }

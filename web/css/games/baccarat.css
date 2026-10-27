@@ -40,7 +40,7 @@
 
 /* Chips: hexagon-notched discs in the arcade palette. */
 .bac-chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding-top: 8px; }
-.bac-chip { --c: var(--info); position: relative; aspect-ratio: 1; border-radius: 50%; border: 0; cursor: pointer; font: 12px/1 var(--display); color: #120d1f;
+.bac-chip { --c: var(--info); position: relative; aspect-ratio: 1; border-radius: 50%; border: 0; cursor: pointer; font: 12px/1 var(--display); color: #0d0d11;
   background: radial-gradient(circle, var(--c) 0 50%, #fff 51% 55%, transparent 56%),
     conic-gradient(from 22.5deg, #fff 0 12.5%, transparent 12.5% 25%, #fff 25% 37.5%, transparent 37.5% 50%, #fff 50% 62.5%, transparent 62.5% 75%, #fff 75% 87.5%, transparent 87.5%) var(--c);
   box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35); transition: transform 0.08s; display: grid; place-items: center; }

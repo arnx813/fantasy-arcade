@@ -7,7 +7,7 @@ import { resultStrip, placeBet, useCss, fmtMult } from './common.js';
 import { TOWER_MODES, TOWER_LEVELS, towerMultiplier } from '/shared/games/tower.js';
 
 const STAR = '<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4l4.6 10 10.9 1.2-8.1 7.4 2.3 10.8L20 27.9l-9.7 5.5 2.3-10.8-8.1-7.4L15.4 14z" fill="#ffd23f"/><path d="M20 4l4.6 10L20 20z" fill="#fff" opacity="0.35"/></svg>';
-const SKULL = '<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 6c-8 0-13 5.5-13 12.5 0 4 1.8 6.8 4.5 8.5V32h17v-5c2.7-1.7 4.5-4.5 4.5-8.5C33 11.5 28 6 20 6z" fill="#ff5d73"/><circle cx="15" cy="19" r="3.2" fill="#1e1530"/><circle cx="25" cy="19" r="3.2" fill="#1e1530"/><path d="M17 32v-4M20 32v-4M23 32v-4" stroke="#1e1530" stroke-width="1.6"/></svg>';
+const SKULL = '<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 6c-8 0-13 5.5-13 12.5 0 4 1.8 6.8 4.5 8.5V32h17v-5c2.7-1.7 4.5-4.5 4.5-8.5C33 11.5 28 6 20 6z" fill="#ff5d73"/><circle cx="15" cy="19" r="3.2" fill="#121217"/><circle cx="25" cy="19" r="3.2" fill="#121217"/><path d="M17 32v-4M20 32v-4M23 32v-4" stroke="#121217" stroke-width="1.6"/></svg>';
 const MODES = [['easy', 'Easy'], ['medium', 'Medium'], ['hard', 'Hard'], ['expert', 'Expert'], ['master', 'Master']];
 
 export async function mount({ controls, stage, foot, ctx }) {

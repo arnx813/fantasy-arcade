@@ -8,6 +8,10 @@ export async function render(page, { game }, ctx) {
     page.append(h('h1', 'Game not found'), h('p', { class: 'muted' }, h('a', { href: '/' }, 'Back to the lobby')));
     return;
   }
+  try {
+    const recent = JSON.parse(localStorage.getItem('fa:recent') || '[]').filter((g) => g !== game);
+    localStorage.setItem('fa:recent', JSON.stringify([game, ...recent].slice(0, 12)));
+  } catch { /* storage unavailable */ }
   const rtp = ctx.store.get('config')?.rtp?.[game] ?? 0.99;
   const controls = h('div', { class: 'controls' });
   const stage = h('div', { class: 'stage' });

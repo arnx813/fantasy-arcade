@@ -226,14 +226,14 @@ export function mount({ controls, stage, foot, ctx }) {
       const y = Math.round(Y(v)) + 0.5;
       g.strokeStyle = 'rgba(169,158,198,0.12)';
       g.beginPath(); g.moveTo(padL, y); g.lineTo(W - padR, y); g.stroke();
-      g.fillStyle = '#7a6f99';
+      g.fillStyle = '#6d6d7c';
       g.fillText(`${+v.toFixed(2)}×`, padL - 8, y);
     }
     g.textAlign = 'center';
     g.textBaseline = 'top';
     const xs = niceStep(xMax / 1000, 5) * 1000;
     for (let t = 0; t <= xMax; t += xs) {
-      g.fillStyle = '#7a6f99';
+      g.fillStyle = '#6d6d7c';
       g.fillText(`${Math.round(t / 1000)}s`, X(t), H - padB + 8);
     }
     g.strokeStyle = 'rgba(169,158,198,0.3)';

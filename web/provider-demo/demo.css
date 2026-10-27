@@ -4,13 +4,13 @@
   --body: #22183c;
   --rim: #3c2d66;
   --glass: #0b0716;
-  --ink: #f3eeff;
-  --muted: #a99ec6;
+  --ink: #f4f4f6;
+  --muted: #9a9aa8;
   --gold: #ffd23f;
   --go: #ff5d8f;
   --ok: #45e0a8;
   --err: #ff5d73;
-  --display: 'Bungee', 'Arial Black', system-ui, sans-serif;
+  --display: 'Rubik', 'Arial Black', system-ui, sans-serif;
   --ui: 'Chivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
   color-scheme: dark;
 }

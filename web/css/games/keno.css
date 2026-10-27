@@ -7,11 +7,11 @@
   font: 17px/1 var(--display); cursor: pointer; display: grid; place-items: center;
   transition: transform 0.08s, background 0.12s, opacity 0.2s;
 }
-.keno-tile:hover { background: #43356a; transform: translateY(-2px); }
+.keno-tile:hover { background: #2e2e38; transform: translateY(-2px); }
 .keno-board.busy .keno-tile { cursor: default; pointer-events: none; }
 .keno-tile.picked { background: var(--marquee); color: var(--marquee-ink); }
 .keno-tile.picked:hover { background: #ffc24d; }
-.keno-tile.drawn { background: #120d1f; color: var(--loss); box-shadow: inset 0 0 0 2px rgba(255, 93, 115, 0.35); animation: keno-in 0.16s ease-out; }
+.keno-tile.drawn { background: #0d0d11; color: var(--loss); box-shadow: inset 0 0 0 2px rgba(255, 93, 115, 0.35); animation: keno-in 0.16s ease-out; }
 .keno-tile.hit {
   background: #0f3a2e; color: var(--win); animation: keno-in 0.2s ease-out;
   box-shadow: 0 0 0 2px var(--win), 0 0 18px rgba(69, 224, 168, 0.55);
